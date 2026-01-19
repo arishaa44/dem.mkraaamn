@@ -25,3 +25,55 @@
     </p>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Шифр Цезаря</title>
+</head>
+<body>
+  <script>
+    // Добавляем текущую дату под <body>
+    document.write(`<p>Текущая дата: ${new Date().toLocaleDateString('ru-RU')}</p>`);
+  </script>
+
+  <h2>Шифр Цезаря</h2>
+  <pre id="output"></pre>
+
+  <script>
+    const ALPHABET = 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+    
+    function caesarEncrypt(text, shift) {
+      return text
+        .toUpperCase()
+        .split('')
+        .map(char => {
+          const idx = ALPHABET.indexOf(char);
+          if (idx === -1) return char;
+          return ALPHABET[(idx + shift) % 32];
+        })
+        .join('');
+    }
+
+    function caesarDecrypt(text, shift) {
+      return caesarEncrypt(text, 32 - shift);
+    }
+
+    // Примеры
+    const output = `
+Ключи:
+а. АПЕЛЬСИН → САЦЬНВЩЮ → k = 17
+б. АБРИКОС → ЫЬЛГЕЙМ → k = 27
+
+Расшифровка:
+а. ФХНЗКЧ → ПРИВЕТ (k=5)
+б. ЦЩЕБФ → ВЕСНА (k=20)
+
+Шифрование фамилии "ГОВОРОВА" с k=10:
+"${caesarEncrypt('ГОВОРОВА', 10)}"
+    `.trim();
+
+    document.getElementById('output').textContent = output;
+  </script>
+</body>
+</html>
